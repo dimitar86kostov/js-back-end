@@ -27,6 +27,8 @@ function staticFileHandler(req, res) {
     return false;
 }
 
+
+
 module.exports = {
     staticFileHandler
 }
