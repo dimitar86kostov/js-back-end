@@ -1,5 +1,5 @@
-const { readTemplate } = require("../util");
-const cats = require("../../data/cats.json");
+const { layout, readTemplate } = require("../util");
+const { getCats } = require("../model");
 
 function catFragment(cat) {
     return `
@@ -16,14 +16,15 @@ function catFragment(cat) {
 }
 
 async function homeHandler(req, res) {
-    const template = await readTemplate('views/home/index');
+    const template = await readTemplate('home/index');
     res.writeHead(200, [
         'Content-Type', 'text/html'
     ]);
 
+    const cats = await getCats();
     const html = template.replace('%%catContent%%', cats.map(catFragment).join('\n'));
 
-    res.write(html);
+    res.write(await layout(html, true));
     res.end();
 };
 

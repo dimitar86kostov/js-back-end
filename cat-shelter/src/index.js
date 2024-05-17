@@ -1,19 +1,35 @@
 const http = require('http');
-const { homeHandler } = require('./handlers/home');
 const { staticFileHandler } = require('./handlers/static');
+const { homeHandler } = require('./handlers/home');
+const { addBreedHandler, postBreedHandler } = require('./handlers/addBreed');
+const { addCatHandler } = require('./handlers/addCat');
 
 const routes = {
-    '/': homeHandler,
-    '/index.html': homeHandler
+    'GET': {
+        '/': homeHandler,
+        '/index.html': homeHandler,
+        '/cats/add-breed': addBreedHandler,
+        '/cats/add-cat': addCatHandler,
+
+    },
+    "POST": {
+        '/cats/add-breed': postBreedHandler,
+        // '/cats/add-cat': addCatHandler,
+    }
 }
 
 http.createServer((req, res) => {
-    const route = routes[req.url];
+    const methodRoutes = routes[req.method];
 
-    if (typeof route == 'function') {
-        route(req, res);
-        return
-    } else if (staticFileHandler(req, res)) {
+    if (methodRoutes) {
+        const route = methodRoutes[req.url];
+        if (typeof route == 'function') {
+            route(req, res);
+            return
+        }
+    }
+
+    if (staticFileHandler(req, res)) {
         return;
     }
 
