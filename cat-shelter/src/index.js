@@ -2,7 +2,7 @@ const http = require('http');
 const { staticFileHandler } = require('./handlers/static');
 const { homeHandler } = require('./handlers/home');
 const { addBreedHandler, postBreedHandler } = require('./handlers/addBreed');
-const { addCatHandler } = require('./handlers/addCat');
+const { addCatHandler, postCatHandler } = require('./handlers/addCat');
 
 const routes = {
     'GET': {
@@ -14,7 +14,7 @@ const routes = {
     },
     "POST": {
         '/cats/add-breed': postBreedHandler,
-        // '/cats/add-cat': addCatHandler,
+        '/cats/add-cat': postCatHandler,
     }
 }
 
@@ -36,6 +36,7 @@ http.createServer((req, res) => {
     res.writeHead(404, [
         'Content-Type', 'text/plaint'
     ]);
+    console.log(methodRoutes);
     res.write('404 not found');
     res.end();
 
