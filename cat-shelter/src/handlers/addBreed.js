@@ -18,8 +18,8 @@ async function postBreedHandler(req, res) {
     req.on('data', chunk => data += chunk.toString());
     req.on('end', async () => {
         const formData = new URLSearchParams(data);
-        const breed = formData.breed;
-
+        const breed = formData.get('breed');
+        
         if (breed) {
             await addBreed(breed);
 
@@ -27,10 +27,14 @@ async function postBreedHandler(req, res) {
                 'Location', '/'
             ]);
             res.end();
+        }else{
+            res.writeHead(301, [
+                'Location', '/cats/add-breed'
+            ]);
+            res.end();
         }
     })
-    res.statusCode = 204;
-    res.end();
+
 }
 
 module.exports = {

@@ -9,6 +9,7 @@ async function addCatHandler(req, res) {
     const template = await readTemplate('addCat');
 
     const breeds = await getBreeds();
+    
     const html = template.replace('%%breed%%', breeds.map(breedFragment).join('\n'));
 
     res.writeHead(200, [
