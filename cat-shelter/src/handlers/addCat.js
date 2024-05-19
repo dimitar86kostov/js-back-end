@@ -30,24 +30,24 @@ async function postCatHandler(req, res) {
         console.log(formData);
 
         const upload = formData.get('upload');
-
+        console.log(upload);
 
         if (upload) {
             const body = data.join('');
             const lineIndex = body.indexOf('\n');
             const fileData = body.slice(lineIndex, body.indexOf(boundary, lineIndex));
-    
+
             const pattern = /filename="(.+)"/;
             const fileName = pattern.exec(fileData)[1];
             console.log(fileName);
-    
+
             const windowsPattern = /\r\n\r\n/;
             const linuxPattern = /\n\n/;
             let match = windowsPattern.exec(fileData);
             if (match == null) {
                 match = linuxPattern.exec(fileData);
             }
-    
+
             if (match) {
                 const file = fileData.slice(match.index).trim();
                 const prefix = ('00000' + (Math.random() * 9999999 | 0)).slice(-5);
