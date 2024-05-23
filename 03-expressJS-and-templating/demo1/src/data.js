@@ -6,4 +6,10 @@ function dataController(req, res) {
     })
 }
 
-module.exports = { dataController }
+function jsonControler(req, res) {
+    res.json({
+        count: req.count
+    })
+}
+
+module.exports = { dataController, jsonControler }
