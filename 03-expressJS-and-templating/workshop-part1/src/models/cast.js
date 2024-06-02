@@ -22,7 +22,7 @@ const castSchema = new Schema({
     imageUrl: {
         type: String,
         required: true,
-        RegExp: /http/
+        RegExp: /^https?:\/\/.+/
     },
     movie: {
         type: Types.ObjectId,

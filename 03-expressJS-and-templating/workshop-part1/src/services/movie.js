@@ -27,10 +27,10 @@ async function createMovie(data) {
     return movie;
 }
 
-function uuid() {
-    // id generator
-    return 'xxxx-xxxx'.replace(/x/g, () => (Math.random() * 16 | 0).toString(16));
-}
+// function uuid() {
+//     // id generator
+//     return 'xxxx-xxxx'.replace(/x/g, () => (Math.random() * 16 | 0).toString(16));
+// }
 
 module.exports = {
     getAllMovies,

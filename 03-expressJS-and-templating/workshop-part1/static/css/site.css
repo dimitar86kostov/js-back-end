@@ -119,6 +119,16 @@ footer {
     padding: 0.7em 1em;
 }
 
+
+.error label {
+    color: rgb(81, 255, 0);
+}
+
+.error input.inputFields,
+.error textarea.inputFields {
+    border-color:  rgb(81, 255, 0);
+}
+
 .error-container {
     position: fixed;
     right: 5em;
@@ -132,7 +142,7 @@ footer {
     font-style: italic;
     font-weight: bold;
     height: auto;
-    width: 300px;
+    width: 1200px;
     padding: 1em;
 }
 
