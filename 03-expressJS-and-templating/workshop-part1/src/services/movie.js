@@ -39,6 +39,27 @@ async function attachCastMovie(movieId, castId) {
     return movie;
 }
 
+async function searchMovie(title, genre, year) {
+    let result = await getAllMovies()
+
+    if (title) {
+        result = result.filter(movie => movie.title.toLowerCase().includes(title.toLowerCase()));
+    }
+
+    if (genre) {
+        result = result.filter(movie => movie.genre.toLowerCase() == genre.toLowerCase());
+
+    }
+    if (year) {
+        result = result.filter(movie => movie.year == year);
+
+    }
+
+    return result;
+    // const result = Movie.find(query).lean();
+    // return result;
+}
+
 // function uuid() {
 //     // manual id generator
 //     return 'xxxx-xxxx'.replace(/x/g, () => (Math.random() * 16 | 0).toString(16));
@@ -48,5 +69,6 @@ module.exports = {
     getAllMovies,
     getMovieById,
     createMovie,
-    attachCastMovie
+    attachCastMovie,
+    searchMovie
 }

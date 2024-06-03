@@ -1,11 +1,13 @@
-const { getAllMovies, getMovieById } = require('../services/movie');
+const { getAllMovies, getMovieById, searchMovie } = require('../services/movie');
 
 module.exports = {
+    
     homeController: async (req, res) => {
 
         const movies = await getAllMovies();
         res.render('home', { movies });
     },
+
     detailsController: async (req, res) => {
         const { id } = req.params;
         const movie = await getMovieById(id);
@@ -19,8 +21,12 @@ module.exports = {
 
         res.render('details', { movie });
     },
-    searchController: (req, res) => {
 
-        res.render('search');
+    searchController: async (req, res) => {
+
+        const { title, genre, year } = req.query;
+
+        const movies = await searchMovie(title, genre, year);
+        res.render('search', { movies, title, genre, year });
     }
 }

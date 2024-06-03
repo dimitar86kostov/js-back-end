@@ -1,3 +1,4 @@
+{{#each movies}}
 <div class="flip flip-vertical">
     <div class="front">
         <img src="{{imageURL}}" alt="{{title}}">
@@ -10,3 +11,8 @@
         <a href="/attach/{{_id}}" class="details">Attach Cast</a>
     </div>
 </div>
+{{else}}
+<div class="no-posts">
+    <p class="no-offer">There are no posts yet...</p>
+</div>
+{{/each}}
