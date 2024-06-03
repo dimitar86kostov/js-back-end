@@ -26,8 +26,8 @@ const castSchema = new Schema({
     },
     movie: {
         type: Types.ObjectId,
-        ref: 'Movie'
-    },
+        ref: 'movies'
+    }
 })
 
 const Cast = model('cast', castSchema);
