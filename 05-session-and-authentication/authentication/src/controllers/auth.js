@@ -1,16 +1,23 @@
-const { login, register } = require("../services/authService");
+const { login, register, getUserData } = require("../services/authService");
 
 module.exports = {
 
+    details: async (req, res) => {
+        const userData = await getUserData();
+        res.json(userData);
+    },
+
     registerGet: (req, res) => {
+        //saving error in the session storage to pass it in the template, then authService will throw an error if occur
         const error = req.session.error;
+        //create formData and pass it to the template. If it's truthy will save the username written by the user // better client experience:))
         const formData = req.session.formData;
         delete req.session.error;
         delete req.session.formData;
-        
+
         res.render('register', { error, formData });
     },
-    registerPost: (req, res) => {
+    registerPost: async (req, res) => {
         const { username, password, repass } = req.body;
 
         try {
@@ -24,7 +31,7 @@ module.exports = {
                 throw new Error('Password don\'t match!')
             }
 
-            const user = register(username, password);
+            const user = await register(username, password);
             req.session.user = user;
 
             res.redirect('/')
@@ -38,7 +45,10 @@ module.exports = {
             return;
         }
 
-        res.redirect('/');
+        // this will send second response to the licent and error will occur:
+        // Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        // // res.redirect('/');  
+
     },
 
     loginGet: (req, res) => {
@@ -46,11 +56,11 @@ module.exports = {
         delete req.session.error;
         res.render('login', { error });
     },
-    loginPost: (req, res) => {
+    loginPost: async (req, res) => {
         const { username, password } = req.body;
 
         try {
-            const user = login(username, password);
+            const user = await login(username, password);
             req.session.user = user;
 
             res.redirect('/')
@@ -63,7 +73,6 @@ module.exports = {
             return;
         }
 
-        res.redirect('/');
     },
 
     logout: (req, res) => {

@@ -3,6 +3,7 @@ const { hbsConfig } = require('./config/hbs');
 const { expressConfig } = require('./config/express');
 const { router } = require('./config/routes');
 const { databaseConfig } = require('./config/database');
+require('./models/User');
 
 const PORT = process.env.PORT || 3000;
 

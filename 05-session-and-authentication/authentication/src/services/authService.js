@@ -1,42 +1,59 @@
-const users = {
-    'dimi': {
-        username: 'dimi',
-        password: '123'
+const bcrypt = require('bcrypt');
+const { User } = require('../models/User.js');
+
+seed();
+async function seed() {
+    try {
+        await register('dimi', '123')
+
+    } catch (error) {
+        console.log('Database already seeded!');
     }
-};
+}
 
-function register(username, password) {
+async function register(username, password) {
+    //check if the user already exist
+    const existing = await User.findOne({ username });
 
-    if (users[username]) {
-        throw new Error("This username is taken!")
+    if (existing) {
+        throw new Error("Username is taken!")
     }
 
-    const user = {
+    //creating new user from User model with crypted password
+    const user = new User({
         username,
-        password
-    }
+        hashedPassword: await bcrypt.hash(password, 10)
+    });
 
-    users[username] = user;
+    //adding new user to the 'users' db collection
+    await user.save();
 
     console.log('Created new user', username);
 
     return user;
 }
 
-function login(username, password) {
-    const user = users[username];
+async function login(username, password) {
+    const user = await User.findOne({ username });
 
-    if (!user || user.password != password) {
+    //validation with crypted pass
+    if (!user || !await bcrypt.compare(password, user.hashedPassword)) {
         console.log('Incorect password for user', username);
         throw new Error("Incorect username or password!")
     }
 
     console.log('Logged in as', user.username);
 
-    return user;    
+    return user;
+}
+
+async function getUserData() {
+    //returning the collection of users
+    return await User.find();
 }
 
 module.exports = {
     register,
-    login
+    login,
+    getUserData
 }
