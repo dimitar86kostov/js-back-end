@@ -1,14 +1,26 @@
+const { Router } = require('express');
 const { register, login } = require("../services/authService");
 const { createToken } = require("../services/token");
+const { isGuest } = require('../middleware/guards');
+const { body, validationResult } = require('express-validator');
 
-module.exports = {
-    registerGet: (req, res) => {
-        res.render('register');
-    },
-    registerPost: async (req, res) => {
+const userRouter = Router();
+
+userRouter.get('/register', isGuest(), (req, res) => {
+    res.render('register');
+});
+
+userRouter.post('/register',
+    isGuest(),
+    body('email').trim().isEmail().withMessage('Please enter a valid email'),
+    async (req, res) => {
         const { email, password, rePass } = req.body;
 
         try {
+            const errors = validationResult(req);
+            if (errors.length) {
+                throw new Error(errors.map(e => e.msg).join('\n'));
+            }
             if (!email) {
                 throw new Error('Email is required!');
             }
@@ -29,12 +41,19 @@ module.exports = {
             res.render('register', { data: { email }, error: err.message })
             return;
         }
-    },
+    });
 
-    loginGet: (req, res) => {
+userRouter.get('/login',
+    isGuest(),
+
+    (req, res) => {
         res.render('login');
-    },
-    loginPost: async (req, res) => {
+    });
+
+userRouter.post('/login',
+    isGuest(),
+
+    async (req, res) => {
         const { email, password } = req.body;
 
         try {
@@ -56,10 +75,11 @@ module.exports = {
             res.render('login', { data: { email }, error: err.message })
             return;
         }
-    },
+    });
 
-    logout: (req, res) => {
-        res.clearCookie('token');
-        res.redirect('/');
-    }
-}
+userRouter.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
+});
+
+module.exports = { userRouter };

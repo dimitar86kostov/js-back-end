@@ -1,0 +1,14 @@
+<h1>Let's start</h1>
+<p>This is the VALIDATION demo!</p>
+<div>
+    <form method="post">
+        <h2>Register</h2>
+        {{#each errors}}
+        <p>{{this}}</p>
+        {{/each}}
+        <label {{#if errors.email}}class="error"{{/if}}>Email: <input type="text" {{#if data.email}}value="{{data.email}}{{/if}}" name="email"></label>
+        <label {{#if errors.password}}class="error"{{/if}}>Password: <input type="text" name="password"></label>
+        <label {{#if errors.repass}}class="error"{{/if}}>Repeat-Password: <input type="text" name="repass"></label>
+        <input type="submit" value="register">
+    </form>
+</div>

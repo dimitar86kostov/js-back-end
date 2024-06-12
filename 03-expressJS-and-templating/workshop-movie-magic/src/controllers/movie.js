@@ -1,8 +1,7 @@
-const { createMovie, updateMovie, getMovieById } = require("../services/movie");
+const { createMovie, updateMovie, getMovieById, deleteMovie } = require("../services/movie");
 
 module.exports = {
     createGet: (req, res) => {
-        console.log(req.user._id);
 
         res.render('create');
     },
@@ -31,30 +30,98 @@ module.exports = {
 
     editGet: async (req, res) => {
         const { id } = req.params;
+        let movie;
+        try {
+            movie = await getMovieById(id);
+            if (!movie) {
+                throw new Error('Movie not found!')
+            }
+        } catch (error) {
+            res.render('404');
+            return
+        }
 
-        const movie = await getMovieById(id);
-        console.log(req.user._id);
+        const isCreator = req.user._id == movie.creatorId;
+        if (!isCreator) {
+            res.redirect('/login');
+            return;
+        }
 
         res.render('edit', { movie });
     },
 
+
     editPost: async (req, res) => {
-        const { id } = req.params;
+        const movieId = req.params.id;
+        const creatorId = req.user._id;
 
-        const { title, genre, director, year, imageURL, rating } = req.body;
-
-        if (!title || !genre || !director || !year || !imageURL || !rating) {
-            res.render('edit', {
-                title, genre, director, year, imageURL, rating,
-                error: {
-                    title: !title, genre: !genre, director: !director, year: !year, imageURL: !imageURL, rating: !rating
-                }
-            })
-            return;
+        const errors = {
+            title: !req.body.title,
+            genre: !req.body.genre,
+            director: !req.body.director,
+            year: !req.body.year,
+            rating: !req.body.rating,
+            description: !req.body.description,
+            imageURL: !req.body.imageURL
         }
 
-        await updateMovie(id, req.body);
+        if (Object.values(errors).includes(true)) {
+            res.render('edit', { movie: req.body, errors });
+            return;
+        }
+      
+        try {
+            await updateMovie(movieId, req.body, creatorId);
+        } catch (err) {
+            if (err.message == 'Access denied!') {
+                res.redirect('/login');
+            } else {
+                res.render('404');
+            }
+            return
+        }
 
+        res.redirect('/details/' + movieId);
+    },
+
+    deleteGet: async (req, res) => {
+        const { id } = req.params;
+
+        let movie;
+        try {
+            movie = await getMovieById(id);
+            if (!movie) {
+                throw new Error('Movie not found!')
+            }
+        } catch (error) {
+            res.render('404');
+            return
+        }
+
+        const isCreator = req.user._id == movie.creatorId;
+        if (!isCreator) {
+            res.redirect('/login');
+            return;
+        }
+        res.render('delete', { movie });
+    },
+
+    deletePost: async (req, res) => {
+        const movieId = req.params.id;
+        const creatorId = req.user._id;
+        console.log(movieId);
+        try {
+            await deleteMovie(movieId, creatorId);
+        } catch (err) {
+            if (err.message == 'Access denied!') {
+                res.redirect('/login');
+            } else {
+                res.render('404');
+            }
+            return
+        }
         res.redirect('/')
     }
+
+
 }

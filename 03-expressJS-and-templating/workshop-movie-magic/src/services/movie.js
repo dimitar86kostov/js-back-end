@@ -22,18 +22,21 @@ async function createMovie(data, creator) {
         description: data.description,
         imageURL: data.imageURL,
         creatorId: creator,
-        cast: []
     });
 
     await movie.save();
     return movie;
 }
 
-async function attachCastMovie(movieId, castId) {
+async function attachCastMovie(movieId, castId, userId) {
     const movie = await Movie.findById(movieId);
 
     if (!movie) {
         throw new Error(`Movie ${movieId} is not found!`)
+    }
+    
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
     }
     movie.cast.push(castId);
     await movie.save();
@@ -56,17 +59,40 @@ async function searchMovie(title, genre, year) {
     return result;
 }
 
-async function updateMovie(id, movieData) {
+async function updateMovie(movieId, movieData, userId) {
 
-    const movie = await Movie.getMovieById(id);
-    const updated = await Movie.findOneAndUpdate()
+    const movie = await Movie.findById(movieId);
 
-    // movie.title = movieData.title,
-    // movie.genre = movieData.genre,
-    // movie.director = movieData.director,
-    // movie.year = movieData.year,
-    // movie.imageURL = movieData.imageURL,
-    // movie.rating = movieData.rating
+    if (!movie) {
+        throw new Error(`Movie ${movieId} not find!`)
+    }
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
+    }
+
+        movie.title = movieData.title,
+        movie.genre = movieData.genre,
+        movie.director = movieData.director,
+        movie.year = movieData.year,
+        movie.rating = movieData.rating,
+        movie.description = movieData.description,
+        movie.imageURL = movieData.imageURL,
+
+        await movie.save();
+    return movie;
+}
+
+async function deleteMovie(movieId, userId) {
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+        throw new Error(`Movie ${movieId} not find!`)
+    }
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
+    }
+
+    await Movie.findByIdAndDelete(movieId)
 
 }
 
@@ -76,5 +102,6 @@ module.exports = {
     createMovie,
     attachCastMovie,
     searchMovie,
-    updateMovie
+    updateMovie,
+    deleteMovie
 }

@@ -3,22 +3,21 @@ const { hbsConfig } = require('./config/hbs');
 const { expressConfig } = require('./config/express');
 const { router } = require('./config/routes');
 const { databaseConfig } = require('./config/database');
-const { routesConfig } = require('./config/routes');
+const { configRoutes } = require('./config/routes');
 
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 async function start() {
-    const app = express();
+    const app = express()
 
     await databaseConfig();
     hbsConfig(app);
     expressConfig(app);
-    routesConfig(app);
+    configRoutes(app);
 
-
-    app.listen(port, console.log(`The app is running at ${port} port.`));
+    app.listen(PORT, () => {
+        console.log(`The app is running at ${PORT} port.`)
+    });
 }
 
 start();
-
-

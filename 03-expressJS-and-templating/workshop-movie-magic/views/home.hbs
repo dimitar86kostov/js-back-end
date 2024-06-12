@@ -1,9 +1,11 @@
 <section id="catalog">
     <h1>All Movies</h1>
-    <p>Wellcome {{req.session.user.email}}</p>
+    <div>
+        <h1>Wellcome {{user.email}}</h1>
+    </div>
     <div class="band">
-        
+
         {{> movie}}
-        
+
     </div>
 </section>

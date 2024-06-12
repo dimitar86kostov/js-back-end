@@ -1,19 +1,23 @@
 const { getAllMovies, getMovieById, searchMovie } = require('../services/movie');
 
-const jwt = require('jsonwebtoken');
 
 module.exports = {
 
     homeController: async (req, res) => {
-
         const movies = await getAllMovies();
-        res.render('home', { movies });
+        const user = req.user;
+
+        for (const movie of movies) {
+            movie.isCreator = req.user?._id == movie.creatorId
+
+        }
+
+        res.render('home', { movies, user });
     },
 
     detailsController: async (req, res) => {
         const { id } = req.params;
         const movie = await getMovieById(id);
-
         if (!movie) {
             res.render('404');
             return;
@@ -21,13 +25,11 @@ module.exports = {
 
         movie.starRating = '&#x2605'.repeat(movie.rating);
 
-        console.log(movie.creatorId);
-        console.log(req.user._id);
-        console.log(req.user._id == movie.creatorId);
         
-        const isCreator = req.user._id == movie.creatorId
+        // const isCreator = req.user?._id == movie.creatorId;;;;;=> separate variable doesn't work
+        movie.isCreator = req.user?._id == movie.creatorId; //it must be new property of the object
 
-        res.render('details', { movie, isCreator });
+        res.render('details', { movie });
     },
 
     searchController: async (req, res) => {

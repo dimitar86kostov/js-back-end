@@ -22,6 +22,7 @@ module.exports = {
 
         const movieId = req.params.id;
         const castId = req.body.cast;
+        const userId = req.user._id;
 
         if (!movieId || !castId) {
             console.error(`Missing ${movieId} or ${castId}`);
@@ -36,7 +37,7 @@ module.exports = {
         }
 
         try {
-            await attachCastMovie(movieId, castId);
+            await attachCastMovie(movieId, castId, userId);
         } catch (error) {
             console.error(`Error adding cast to movie!`, error);
 
