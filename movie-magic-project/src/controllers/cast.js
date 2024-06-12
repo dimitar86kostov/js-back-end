@@ -2,10 +2,10 @@ const { createCast } = require("../services/cast");
 
 module.exports = {
 
-    createGet: (req, res) => {
+    createCastGet: (req, res) => {
         res.render('cast-create');
     },
-    createPost: async (req, res) => {
+    createCastPost: async (req, res) => {
 
         const errors = {
             name: !req.body.name,

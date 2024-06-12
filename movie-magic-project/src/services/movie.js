@@ -11,7 +11,7 @@ async function getMovieById(id) {
 
 }
 
-async function createMovie(data) {
+async function createMovie(data, creator) {
 
     const movie = new Movie({
         title: data.title,
@@ -21,18 +21,22 @@ async function createMovie(data) {
         rating: Number(data.rating),
         description: data.description,
         imageURL: data.imageURL,
-        cast: []
+        creatorId: creator,
     });
 
     await movie.save();
     return movie;
 }
 
-async function attachCastMovie(movieId, castId) {
+async function attachCastMovie(movieId, castId, userId) {
     const movie = await Movie.findById(movieId);
 
     if (!movie) {
         throw new Error(`Movie ${movieId} is not found!`)
+    }
+    
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
     }
     movie.cast.push(castId);
     await movie.save();
@@ -45,30 +49,59 @@ async function searchMovie(title, genre, year) {
     if (title) {
         result = result.filter(movie => movie.title.toLowerCase().includes(title.toLowerCase()));
     }
-
     if (genre) {
         result = result.filter(movie => movie.genre.toLowerCase() == genre.toLowerCase());
-
     }
     if (year) {
         result = result.filter(movie => movie.year == year);
-
     }
 
     return result;
-    // const result = Movie.find(query).lean();
-    // return result;
 }
 
-// function uuid() {
-//     // manual id generator
-//     return 'xxxx-xxxx'.replace(/x/g, () => (Math.random() * 16 | 0).toString(16));
-// }
+async function updateMovie(movieId, movieData, userId) {
+
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+        throw new Error(`Movie ${movieId} not find!`)
+    }
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
+    }
+
+        movie.title = movieData.title,
+        movie.genre = movieData.genre,
+        movie.director = movieData.director,
+        movie.year = movieData.year,
+        movie.rating = movieData.rating,
+        movie.description = movieData.description,
+        movie.imageURL = movieData.imageURL,
+
+        await movie.save();
+    return movie;
+}
+
+async function deleteMovie(movieId, userId) {
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+        throw new Error(`Movie ${movieId} not find!`)
+    }
+    if (movie.creatorId != userId) {
+        throw new Error(`Access denied!`)
+    }
+
+    await Movie.findByIdAndDelete(movieId)
+
+}
 
 module.exports = {
     getAllMovies,
     getMovieById,
     createMovie,
     attachCastMovie,
-    searchMovie
+    searchMovie,
+    updateMovie,
+    deleteMovie
 }

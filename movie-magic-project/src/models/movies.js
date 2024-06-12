@@ -29,7 +29,7 @@ const movieSchema = new Schema({
     imageURL: {
         type: String,
         required: true,
-        RegExp: /^https?:\/\/.+/
+        match: /^https?:\/\/.+/
     },
     description: {
         type: String,
@@ -39,6 +39,10 @@ const movieSchema = new Schema({
         type: [Types.ObjectId],
         ref: 'cast',
         default: []
+    },
+    creatorId: {
+        type: String,  //   type: Types.ObjectId
+        required: true  //   ref: 'User'
     }
 })
 
