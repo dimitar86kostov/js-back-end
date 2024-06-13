@@ -1,9 +1,15 @@
+const { Router } = require("express");
+
 const { getAllCast } = require("../services/cast");
 const { getMovieById, attachCastMovie } = require("../services/movie");
+const { isUser } = require("../middleware/guards");
 
-module.exports = {
+const attachRouter = Router();
 
-    attachGet: async (req, res) => {
+attachRouter.get('/attach/:id',
+    isUser(),
+
+    async (req, res) => {
         const { id } = req.params;
         const movie = await getMovieById(id);
 
@@ -17,34 +23,26 @@ module.exports = {
 
 
         res.render('cast-attach', { movie, allCast: allCast.filter(c => !castInMovie.find(castId => castId == c._id.toString())) });
-    },
-    attachPost: async (req, res) => {
+    });
 
-        const movieId = req.params.id;
-        const castId = req.body.cast;
-        const userId = req.user._id;
+attachRouter.post('/attach/:id',
+    isUser(),
 
-        if (!movieId || !castId) {
-            console.error(`Missing ${movieId} or ${castId}`);
-            res.status(400).end();
-            return;
-        }
-        
-        if (castId == "none") {
-            const movie = await getMovieById(movieId);
-            const allCast = await getAllCast();
-            res.render('cast-attach', { movie, allCast, error: true });
-        }
+    async (req, res) => {
+        const { id } = req.params;
+        const movie = await getMovieById(id);
 
-        try {
-            await attachCastMovie(movieId, castId, userId);
-        } catch (error) {
-            console.error(`Error adding cast to movie!`, error);
-
-            res.status(400).end();
+        if (!movie) {
+            res.render('404');
             return;
         }
 
-        res.redirect('/details/' + movieId);
-    }
-}
+        const allCast = await getAllCast();
+        const castInMovie = movie.cast.map(id => id.toString());
+
+
+        res.render('cast-attach', { movie, allCast: allCast.filter(c => !castInMovie.find(castId => castId == c._id.toString())) });
+    });
+
+
+module.exports = { attachRouter }

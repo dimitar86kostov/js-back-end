@@ -14,13 +14,13 @@ async function getMovieById(id) {
 async function createMovie(data, creator) {
 
     const movie = new Movie({
-        title: data.title,
-        genre: data.genre,
-        director: data.director,
+        title: data.title.trim(),
+        genre: data.genre.trim(),
+        director: data.director.trim(),
         year: Number(data.year),
         rating: Number(data.rating),
-        description: data.description,
-        imageURL: data.imageURL,
+        description: data.description.trim(),
+        imageURL: data.imageURL.trim(),
         creatorId: creator,
     });
 
@@ -70,13 +70,13 @@ async function updateMovie(movieId, movieData, userId) {
         throw new Error(`Access denied!`)
     }
 
-        movie.title = movieData.title,
-        movie.genre = movieData.genre,
-        movie.director = movieData.director,
+        movie.title = movieData.title.trim(),
+        movie.genre = movieData.genre.trim(),
+        movie.director = movieData.director.trim(),
         movie.year = movieData.year,
         movie.rating = movieData.rating,
-        movie.description = movieData.description,
-        movie.imageURL = movieData.imageURL,
+        movie.description = movieData.description.trim(),
+        movie.imageURL = movieData.imageURL.trim(),
 
         await movie.save();
     return movie;

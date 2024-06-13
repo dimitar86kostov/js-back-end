@@ -6,8 +6,10 @@ async function register(email, password) {
     const existing = await User.findOne({ email });
 
     if (existing) {
-        console.log(`Email ${email} is taken`);
-        throw new Error('Email is taken')
+        const err = new Error('Email is already used!');
+        err.errors = { email: 'Email is already used!' };
+
+        throw err;
     }
 
     const user = new User({

@@ -2,12 +2,12 @@ const { Cast } = require("../models/cast")
 
 async function createCast(castData) {
     const cast = new Cast({
-        name: castData.name,
-        age: castData.age,
-        born: castData.born,
-        nameInMovie: castData.nameInMovie,
-        imageUrl: castData.imageUrl,
-        movie: castData.movie
+        name: castData.name.trim(),
+        age: castData.age.trim(),
+        born: castData.born.trim(),
+        nameInMovie: castData.nameInMovie.trim(),
+        imageUrl: castData.imageUrl.trim(),
+        movie: castData.movie.trim()
     });
 
     await cast.save();

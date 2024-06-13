@@ -1,8 +1,14 @@
 <section id="catalog">
-    <h1>All Movies</h1>
+    {{#if user}}
     <div>
         <h1>Wellcome {{user.email}}</h1>
     </div>
+    {{else}}
+    <div>
+        <h1>Wellcome guest</h1>
+    </div>
+    {{/if}}
+    <h1>All Movies</h1>
     <div class="band">
 
         {{> movie}}
