@@ -1,0 +1,25 @@
+<main class="create">
+     {{#if errors}}
+    <div>
+        <div class="errorContainer">
+            <p>{{errors}}</p>
+        </div>
+    </div>
+    {{/if}}
+    <section id="create">
+        <div class="form">
+            <h2>Add Stone</h2>
+            <form class="create-form" method="" action="#">
+                <input type="text" name="name" id="name" placeholder="Name" {{#if errors}}value="{{stone.name}}"{{/if}}/>
+                <input type="text" name="category" id="category" placeholder="Category" {{#if errors}}value="{{stone.category}}"{{/if}} />
+                <input type="text" name="color" id="color" placeholder="Color" {{#if errors}}value="{{stone.color}}"{{/if}}/>
+                <input type="text" name="image" id="stone-img" placeholder="Image" {{#if errors}}value="{{stone.image}}"{{/if}}/>
+                <input type="text" name="location" id="location" placeholder="Location" {{#if errors}}value="{{stone.location}}"{{/if}}/>
+                <input type="text" name="formula" id="formula" placeholder="Formula" {{#if errors}}value="{{stone.formula}}"{{/if}}/>
+                <textarea id="description" placeholder="Description..." name="description">{{#if errors}}{{stone.formula}}{{/if}}</textarea>
+
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </section>
+</main>
