@@ -1,8 +1,8 @@
 <div class="login-box">
     <h1>Login</h1>
-    <form method="post">
+    <form method="POST">
         <label>Email</label>
-        <input type="text" placeholder="Email.." name="email">
+        <input type="text" placeholder="Email.." name="email" {{#if error}}value="{{loginData.email}}"{{/if}}>
         <label>Password</label>
         <input type="password" placeholder="Password.." name="password">
         <input type="submit" value="Submit">

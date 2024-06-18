@@ -143,6 +143,21 @@ footer {
   margin: 100px;
 }
 
+.confirmationContainer {
+  position: fixed;
+  right: 500px;
+  min-width: 500px;
+  display: block;
+  z-index: 111211;
+  top: 500px;
+  text-align: center;
+  border-radius: 550px;
+  color: rgb(7, 11, 11);
+  height: auto;
+  width: 620px;
+  box-shadow: 0 5px 10px #23b816;
+}
+
 .errorContainer {
   position: fixed;
   right: 100px;

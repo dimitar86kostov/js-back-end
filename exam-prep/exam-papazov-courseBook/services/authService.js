@@ -8,7 +8,9 @@ exports.register = async (userData) => {
     if (userData.password != userData.repass) {
         throw new Error('Password missmatch');
     }
-
+    if (!userData.username) {
+        throw new Error('Username is required');
+    }
     const user = await User.findOne({ email: userData.email });
     if (user) {
         throw new Error('User already exist')
@@ -23,15 +25,20 @@ exports.register = async (userData) => {
 exports.login = async ({ email, password }) => {
     const user = await User.findOne({ email });
 
+    if (!user) {
+        throw new Error('Email or Password is invalid')
+        return;
+    }
     if (!email) {
         throw new Error('Email or Password is invalid')
     }
-    if (!password) {
+    if (!password || !email && !password) {
         throw new Error('Email or Password is invalid')
     }
-    const isValid = bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
         throw new Error('Email or Password is invalid')
+        return;
     }
 
     // Generate Token

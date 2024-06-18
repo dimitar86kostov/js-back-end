@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
-        // required: [true, 'The Title should be at least 5 characters'],
-        // minLength: 5
+        // required: [true, "Title is required"]
+        required: [true, 'The Title should be at least 5 characters'],
+        minLength: 5
     },
     type: {
         type: String,
@@ -40,15 +40,21 @@ const courseSchema = new mongoose.Schema({
         // min: 0
     },
     signUpList: [{
-        type: [mongoose.Types.ObjectId],
+        type: mongoose.Types.ObjectId,
         ref: 'User'
     }],
     owner: {
-        type: [mongoose.Types.ObjectId],
+        type: mongoose.Types.ObjectId,
         ref: 'User',
     },
+    createdAt: Date
 });
 
+courseSchema.pre('save', function(){
+    if (!this.createdAt) {
+        this.createdAt = Date.now();
+    }
+})
 
 const Course = mongoose.model('Course', courseSchema);
 

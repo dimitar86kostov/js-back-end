@@ -13,9 +13,9 @@ router.post('/register', async (req, res) => {
         const token = await authService.register(userData);
 
         res.cookie('auth', token);
-        res.redirect('/');
+        res.redirect('/home/');
     } catch (err) {
-        res.render('auth/register', { error: getErrorMessage(err) });
+        res.render('auth/register', { error: getErrorMessage(err), userData });
     }
 });
 
@@ -30,15 +30,15 @@ router.post('/login', async (req, res) => {
         const token = await authService.login(loginData);
 
         res.cookie('auth', token);
-        res.redirect('/');
+        res.redirect('/home/');
     } catch (err) {
-        res.render('auth/login', { error: getErrorMessage(err) });
+        res.render('auth/login', { error: getErrorMessage(err), loginData });
     }
 });
 
 router.get('/logout', (req, res) => {
     res.clearCookie('auth')
-    res.redirect('/');
+    res.redirect('/home/');
 });
 
 

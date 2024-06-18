@@ -11,21 +11,22 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Email is required'],
-        minLength: 10
+        // minLength: 10
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minLength: 4
+        // minLength: 4
     },
     createdCourses: [{
-        type: [mongoose.Types.ObjectId],
+        type: mongoose.Types.ObjectId,
         ref: 'User'
     }],
-    signedUpCourses: {
-        type: [mongoose.Types.ObjectId],
+    signedUpCourses: [{
+        type: mongoose.Types.ObjectId,
         ref: 'User'
-    },
+    }],
+
 });
 
 

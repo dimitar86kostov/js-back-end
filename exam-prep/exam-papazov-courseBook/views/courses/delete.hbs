@@ -1,0 +1,22 @@
+<div>
+    <div class="confirmationContainer">
+        <p>Are you sure u want to delete {{title}}</p>
+    </div>
+</div>
+
+
+<section id="create-container">
+    <div class="create-container-info">
+        <h1>Are you sure u want to delete</h1>
+        <div class="details-container-image">
+            <img src="{{image}}">
+        </div>
+        <form method="POST">
+            <label>{{title}}</label>
+
+            <input type="submit" id="btn" value="YES">
+            <a href="/courses/{{courseId}}">NO! I WANT TO GO BACK!!!</a>
+
+        </form>
+    </div>
+</section>

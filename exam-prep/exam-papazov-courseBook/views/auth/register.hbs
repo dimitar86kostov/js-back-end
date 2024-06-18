@@ -1,10 +1,10 @@
 <div class="register-box">
     <h1>Register</h1>
-    <form method="post">
+    <form method="POST">
         <label>Username</label>
-        <input type="text" placeholder="Username.." name="username">
+        <input type="text" placeholder="Username.." name="username" {{#if error}}value="{{userData.username}}"{{/if}}>
         <label>Email</label>
-        <input type="text" placeholder="Email.." name="email">
+        <input type="text" placeholder="Email.." name="email" {{#if error}}value="{{userData.email}}"{{/if}}>
         <label>Password</label>
         <input type="password" placeholder="Password.." name="password">
         <label>Confirm Password</label>
