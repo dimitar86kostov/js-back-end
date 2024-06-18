@@ -4,40 +4,39 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     title: {
         type: String,
-        // required: [true, "Title is required"]
+        // required: [true, "Title is required"],
         required: [true, 'The Title should be at least 5 characters'],
         minLength: 5
     },
     type: {
         type: String,
-        required: true,
-        // required: [true, 'The Type should be a minimum of 3 characters long'],
-        // minLength: 3
+        // required: true,
+        required: [true, 'The Type should be a minimum of 3 characters long'],
+        minLength: 3
     },
     certificate: {
         type: String,
-        required: true,
-        // required: [true, 'The Certificate should be a minimum of 2 characters long'],
-        // minLength: 2
+        // required: true,
+        required: [true, 'The Certificate should be a minimum of 2 characters long'],
+        minLength: 2
     },
     image: {
         type: String,
-        required: true,
-        // required: [true, 'The Course Image should start with http:// or https://'],
+        // required: true,
+        required: [true, 'The Course Image should start with http:// or https://'],
         match: /^https?:\/\/.+/,
     },
     description: {
         type: String,
-        required: true,
-        // required: [true, 'The Description should be a minimum of 10 characters long'],
-        // minLength: 10
+        // required: true,
+        required: [true, 'The Description should be a minimum of 10 characters long'],
+        minLength: 10
     },
     price: {
         type: Number,
-        required: true,
-        // required: [true, 'The Price should be a positive number'],
-        // default: 0,
-        // min: 0
+        // required: true,
+        required: [true, 'The Price should be a positive number'],
+        min: 0
     },
     signUpList: [{
         type: mongoose.Types.ObjectId,
@@ -49,7 +48,7 @@ const courseSchema = new mongoose.Schema({
     },
     createdAt: Date,
 }, {
-    timestamps: true // We forgot to set this in the beginning, thats we set 'createdAt' manualy
+    timestamps: true // We forgot to set this in the beginning, thats why we set 'createdAt' manualy. The function bellow will no be necessery 
 });
 
 courseSchema.pre('save', function () {

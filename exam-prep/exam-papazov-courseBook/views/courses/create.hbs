@@ -1,10 +1,10 @@
-{{!-- {{#if error}}
+{{#if error}}
 <div>
     <div class="errorContainer">
         <p>{{error}}</p>
     </div>
 </div>
-{{/if}} --}}
+{{/if}}
 <section id="create-container">
     <div class="create-container-info">
         <h1>Create Course</h1>
@@ -22,7 +22,7 @@
             <input name="image" type="text" id="image" placeholder="http://..." value="{{image}}">
 
             <label>Description:</label>
-            <textarea id="content" name="description"></textarea>
+            <textarea id="content" name="description">{{description}}</textarea>
 
             <label>Price:</label>
             <input name="price" type="number" id="price" value="{{price}}">
