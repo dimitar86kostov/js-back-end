@@ -1,25 +1,17 @@
-<main class="create">
-     {{#if errors}}
-    <div>
-        <div class="errorContainer">
-            <p>{{errors}}</p>
-        </div>
-    </div>
-    {{/if}}
-    <section id="create">
-        <div class="form">
-            <h2>Add Stone</h2>
-            <form class="create-form" method="" action="#">
-                <input type="text" name="name" id="name" placeholder="Name" {{#if errors}}value="{{stone.name}}"{{/if}}/>
-                <input type="text" name="category" id="category" placeholder="Category" {{#if errors}}value="{{stone.category}}"{{/if}} />
-                <input type="text" name="color" id="color" placeholder="Color" {{#if errors}}value="{{stone.color}}"{{/if}}/>
-                <input type="text" name="image" id="stone-img" placeholder="Image" {{#if errors}}value="{{stone.image}}"{{/if}}/>
-                <input type="text" name="location" id="location" placeholder="Location" {{#if errors}}value="{{stone.location}}"{{/if}}/>
-                <input type="text" name="formula" id="formula" placeholder="Formula" {{#if errors}}value="{{stone.formula}}"{{/if}}/>
-                <textarea id="description" placeholder="Description..." name="description">{{#if errors}}{{stone.formula}}{{/if}}</textarea>
+<!-- Create Page (Only for logged-in users) -->
+<section id="create">
+    <div class="form">
+        <h2>Add Stone</h2>
+        <form class="create-form" method="POST" >
+            <input type="text" name="name" id="name" placeholder="Name" value="{{name}}"/>
+            <input type="text" name="name" id="category" placeholder="Category" value="{{name}}"/>
+            <input type="text" name="name" id="color" placeholder="Color" value="{{name}}"/>
+            <input type="text" name="image" id="stone-img" placeholder="Image" value="{{image}}"/>
+            <input type="text" name="name" id="location" placeholder="Location" value="{{name}}"/>
+            <input type="text" name="name" id="formula" placeholder="Formula" value="{{name}}"/>
+            <textarea id="description" placeholder="Description..." name="description">{{description}}</textarea>
 
-                <button type="submit">Create</button>
-            </form>
-        </div>
-    </section>
-</main>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</section>

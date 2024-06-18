@@ -12,11 +12,11 @@ router.post('/register', isGuest, async (req, res) => {
 
     try {
         const token = await authService.register(userData);
-
         res.cookie('auth', token);
+        console.log(req.user);
         res.redirect('/');
     } catch (err) {
-        res.render('auth/register', { error: getErrorMessage(err) });
+        res.render('auth/register', { userData, error: getErrorMessage(err) });
     }
 });
 
@@ -33,12 +33,13 @@ router.post('/login', isGuest, async (req, res) => {
         res.cookie('auth', token);
         res.redirect('/');
     } catch (err) {
-        res.render('auth/login', { error: getErrorMessage(err) });
+        res.render('auth/login', { ...loginData, error: getErrorMessage(err) });
     }
 });
 
 router.get('/logout', isAuth, (req, res) => {
     res.clearCookie('auth')
+    console.log(`${req.user.email} Logged out`);
     res.redirect('/');
 });
 

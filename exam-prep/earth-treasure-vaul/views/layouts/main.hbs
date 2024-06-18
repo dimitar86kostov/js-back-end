@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
     <link rel="stylesheet" href="/styles/styles.css" />
+    <title>Home Page</title>
 </head>
 
 <body>
@@ -17,17 +17,17 @@
         </div>
     </div>
     {{/if}}
-
     <div id="wrapper">
         <header>
             <!-- Navigation -->
             <nav>
                 <div>
                     <a href="/">Home</a>
-                    <a href="/catalog">Dashboard</a>
+                    <a href="/dashboard">Dashboard</a>
                     <a href="/search">Search</a>
                 </div>
-                {{#if user}}
+
+                {{#if isAuthenticated}}
                 <!-- Logged-in users -->
                 <div class="user">
                     <a href="/create">Add Stones</a>
@@ -43,14 +43,14 @@
             </nav>
         </header>
 
+        <main>
+            {{{body}}}
+        </main>
+
         <footer>
             <p>@EarthTreasureVaul</p>
         </footer>
     </div>
 </body>
-
-<main>
-    {{{body}}}
-</main>
 
 </html>

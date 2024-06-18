@@ -1,0 +1,20 @@
+<!-- Home page -->
+<section id="home">
+    <h1>Welcome {{user.email}}</h1>
+    <h2>From sparkling geodes to ancient fossils, EarthTreasureVault offers an exclusive collection of
+        natural treasures, each with its own unique story and geological significance.</h2>
+</section>
+
+<section id="last-added">
+    {{#each latestPosts}}
+    <div>
+        <img src={{image}}>
+        <p>Name: {{name}}</p>
+        <p>Category: {{category}}</p>
+        <a class="details-btn" href="/{{_id}}/details">Details</a>
+    </div>
+    {{else}}
+    <p class="no-post">There are no gems and minerals!</p>
+    {{/each}}
+
+</section>

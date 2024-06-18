@@ -14,25 +14,21 @@ exports.register = async (userData) => {
         throw new Error('User already exist')
     }
     const createdUser = await User.create(userData);
-
     const token = generateToken(createdUser);
-
+console.log(`New registered user: ${userData.email}`);
     return token;
 };
 
 exports.login = async ({ email, password }) => {
     const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!email) {
         throw new Error('Email or Password is invalid')
     }
-    if (!email || email != user.email) {
+    if (!password) {
         throw new Error('Email or Password is invalid')
     }
-    if (!password || !email && !password) {
-        throw new Error('Email or Password is invalid')
-    }
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = bcrypt.compare(password, user.password);
     if (!isValid) {
         throw new Error('Email or Password is invalid')
     }
