@@ -47,10 +47,12 @@ const courseSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    createdAt: Date
+    createdAt: Date,
+}, {
+    timestamps: true // We forgot to set this in the beginning, thats we set 'createdAt' manualy
 });
 
-courseSchema.pre('save', function(){
+courseSchema.pre('save', function () {
     if (!this.createdAt) {
         this.createdAt = Date.now();
     }
