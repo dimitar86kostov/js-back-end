@@ -16,4 +16,13 @@ router.get('/dashboard', async (req, res) => {
     res.render('dashboard', { stones });
 });
 
+router.get('/search', async (req, res) => {
+    
+    const name = req.query;
+
+    const stones = await stoneService.search(name).lean();
+    res.render('search', { stones });
+
+});
+
 module.exports = router;

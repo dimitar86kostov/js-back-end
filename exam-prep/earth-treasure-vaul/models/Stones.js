@@ -4,31 +4,40 @@ const stonesSchema = new mongoose.Schema({
 
     name: {
         type: String,
-        required: [true, 'Name is required']
+        required: [true, 'Name should be at least 2 characters'],
+        // minLength: 2
     },
     category: {
         type: String,
-        required: [true, 'category is required']
+        required: [true, 'Category should be at least 3 characters'],
+        minLength: 3
     },
     color: {
         type: String,
-        required: [true, 'color is required']
+        required: [true, 'Color should be at least 2 characters'],
+        minLength: 2
     },
     image: {
         type: String,
-        required: [true, 'image is required']
+        required: [true, 'Image is required'],
+        match: /^https?:\/\//
     },
     location: {
         type: String,
-        required: [true, 'location is required']
+        required: [true, 'Location should be between 5 and 15 characters'],
+        minLength: 5,
+        maxLength: 15
     },
     formula: {
         type: String,
-        required: [true, 'formula is required']
+        required: [true, 'Formula should be between 3 and 30 characters'],
+        minLength: 3,
+        maxLength: 30
     },
     description: {
         type: String,
-        required: [true, 'description is required']
+        required: [true, 'Description should be a minimum of 10 characters long'],
+        minLength: 10
     },
     likedList: [{
         type: mongoose.Types.ObjectId,
