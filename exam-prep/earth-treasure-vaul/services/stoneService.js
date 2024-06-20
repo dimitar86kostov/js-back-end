@@ -10,7 +10,11 @@ exports.createStone = async (stoneData, userId) => {
     return await Stones.create({ ...stoneData, owner: userId });
 };
 
-exports.search = (query) => Stones.find(query);
+exports.search = (name) => {
+    
+    return Stones.find(name)
+};
+
 
 exports.liked = async (stoneId, userId) => await Stones.findByIdAndUpdate(stoneId, { $push: { likedList: userId } });
 

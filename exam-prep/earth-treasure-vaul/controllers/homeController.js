@@ -17,11 +17,10 @@ router.get('/dashboard', async (req, res) => {
 });
 
 router.get('/search', async (req, res) => {
-    
-    const name = req.query;
-
-    const stones = await stoneService.search(name).lean();
-    res.render('search', { stones });
+    let name = req.query;
+   
+    const result = await stoneService.search(name).lean();
+    res.render('search', { result });
 
 });
 
