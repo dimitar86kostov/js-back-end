@@ -56,7 +56,7 @@ router.post('/details/:volcanoId/edit', isAuth, isOwner, async (req, res) => {
         res.redirect(`/details/${req.volcano._id}`);
 
     } catch (err) {
-        res.render('edit', { ...editedVolcano });
+        res.render('edit', { ...editedVolcano, error: getErrorMessage(err) });
     }
 });
 

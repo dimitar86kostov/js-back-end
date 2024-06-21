@@ -16,16 +16,9 @@ router.get('/catalog', async (req, res) => {
 router.get('/search', async (req, res) => {
     const { name, typeVolcano } = req.query;
 
-    let volcanoes = [];
+    const volcanoes = await volcanoService.search(name, typeVolcano);
 
-    if (name || typeVolcano && typeVolcano != '---') {
-        volcanoes = await volcanoService.search(name, typeVolcano);
-    } else {
-        volcanoes = await volcanoService.getAll().lean();
-    }
-
-
-    res.render('search', { data: { name, typeVolcano }, volcanoes });
+    res.render('search', { name, typeVolcano, volcanoes });
 
 });
 

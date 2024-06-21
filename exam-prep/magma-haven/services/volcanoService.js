@@ -18,16 +18,15 @@ exports.delete = async (volcanoId) => await Volcano.findByIdAndDelete(volcanoId)
 
 exports.voted = async (volcanoId, userId) => await Volcano.findByIdAndUpdate(volcanoId, { $push: { voteList: userId } });
 
-exports.search = (name, type) => {
-
-    let query = {};
+exports.search = async (name, type) => {
+    let result = await this.getAll().lean();
 
     if (name) {
-        query.name = new RegExp(name, 'i');
+        result = result.filter(v => v.name.toLowerCase().includes(name.toLowerCase()));
     }
-    if (type && type != '---') {
-        query.type = type;
+    if (type) {
+        result = result.filter(v => v.typeVolcano.includes(type));
     }
 
-    return Volcano.find(query);
+    return result; 
 };
