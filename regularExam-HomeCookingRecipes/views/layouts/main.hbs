@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Cooking Recipes</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+    {{#if error}}
+    <div class="error-container">
+        <p>{{error}}</p>
+    </div>
+    {{/if}}
+    <header>
+        <nav>
+            <ul>
+                {{#if user}}
+                <li><a href="/">Home</a></li>
+                <li><a href="/catalog">Recipes</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/create">Add Recipe</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+                {{else}}
+                <li><a href="/">Home</a></li>
+                <li><a href="/catalog">Recipes</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/auth/login">Login</a></li>
+                <li><a href="/auth/register">Register</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+        <body>
+            {{{body}}}
+        </body>
+
+    </main>
+    <footer>
+        <p>&copy; 2024 Home Cooking Recipes. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
